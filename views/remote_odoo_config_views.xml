@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <record id="view_remote_odoo_connection_form" model="ir.ui.view">
+            <field name="name">remote.odoo.connection.form</field>
+            <field name="model">remote.odoo.connection</field>
+            <field name="arch" type="xml">
+                <form string="Conexión Odoo remoto">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Credenciales Odoo remoto">
+                            <field name="remote_url"/>
+                            <field name="remote_db"/>
+                            <field name="remote_user"/>
+                            <field name="remote_password" password="True"/>
+                        </group>
+                        <group string="Filtro de transferencias">
+                            <field name="picking_domain"
+                                   placeholder="[('state', '=', 'assigned')]"/>
+                        </group>
+                        <group string="Filtro por categoría de producto">
+                            <field name="allowed_categ_ids"
+                                   placeholder="3,7,15"/>
+                        </group>
+                        <group string="Plantilla ZPL">
+                            <field name="zpl_template" widget="text"/>
+                        </group>
+                        <notebook>
+                            <page string="Etiquetas generadas">
+                                <field name="label_ids">
+                                    <tree>
+                                        <field name="create_date"/>
+                                        <field name="sale_order_name"/>
+                                        <field name="picking_name"/>
+                                        <field name="product_name"/>
+                                        <field name="qty"/>
+                                        <field name="printed"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button string="Probar conexión"
+                                type="object"
+                                name="test_connection"
+                                class="btn-primary"/>
+                        <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_remote_odoo_connection_tree" model="ir.ui.view">
+            <field name="name">remote.odoo.connection.tree</field>
+            <field name="model">remote.odoo.connection</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="remote_url"/>
+                    <field name="remote_db"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_remote_odoo_connection" model="ir.actions.act_window">
+            <field name="name">Conexiones Odoo remoto</field>
+            <field name="res_model">remote.odoo.connection</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_remote_picking_root"
+                  name="Remote Picking ZPL"
+                  sequence="60"/>
+
+        <menuitem id="menu_remote_odoo_connection"
+                  name="Conexiones"
+                  parent="menu_remote_picking_root"
+                  action="action_remote_odoo_connection"
+                  sequence="10"/>
+    </data>
+</odoo>
